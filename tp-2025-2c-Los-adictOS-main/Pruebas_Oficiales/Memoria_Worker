@@ -1,0 +1,56 @@
+# Terminal 1: Storage
+./storage/bin/storage storage/configs/storage_memoria_worker.config
+
+# Terminal 2: Master (FIFO)
+./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker
+./worker/bin/worker worker/configs/worker_memoria1.config 1
+
+# Terminal 4: Query Control
+./query_control/bin/query_control query_control/configs/query_control.config queries/memoria_worker1.txt 0
+
+ESPERAR A LA FINALIZACION DE LA QUERY 
+
+una vez finalizada bajar TODO y hacer:
+
+# Terminal 1: Storage
+./storage/bin/storage storage/configs/storage_memoria_worker.config
+
+# Terminal 2: Master (FIFO)
+./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker
+./worker/bin/worker worker/configs/worker_memoria2.config 1
+
+# Terminal 4: Query Control
+./query_control/bin/query_control query_control/configs/query_control.config queries/memoria_worker2.txt 0
+------------------------------------------------------------------------------------------------------------------
+VER MEMORY LEAKS
+# Terminal 1: Storage
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-storage.log \./storage/bin/storage storage/configs/storage_memoria_worker.config
+
+# Terminal 2: Master (FIFO)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-master.log \./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker1.log \./worker/bin/worker worker/configs/worker_memoria1.config 1
+
+# Terminal 4: Query Control
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/memoria_worker1.txt 0
+
+ESPERAR A LA FINALIZACION DE LA QUERY 
+
+una vez finalizada bajar TODO y hacer:
+
+# Terminal 1: Storage
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-storage.log \./storage/bin/storage storage/configs/storage_memoria_worker.config
+
+# Terminal 2: Master (FIFO)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-master.log \./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker2.log \./worker/bin/worker worker/configs/worker_memoria2.config 1
+
+# Terminal 4: Query Control
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/memoria_worker2.txt 0

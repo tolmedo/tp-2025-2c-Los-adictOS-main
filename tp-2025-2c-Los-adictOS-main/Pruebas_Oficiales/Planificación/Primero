@@ -1,0 +1,41 @@
+# Terminal 1: Storage
+./storage/bin/storage storage/configs/storage_fresh.config
+
+# Terminal 2: Master (FIFO)
+./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker 1
+./worker/bin/worker worker/configs/worker1.config 1
+
+# Terminal 4: Worker 2
+./worker/bin/worker worker/configs/worker2.config 2
+
+# Terminal 5-8 (ejecutar en orden)
+./query_control/bin/query_control query_control/configs/query_control.config queries/fifo1.txt 4
+./query_control/bin/query_control query_control/configs/query_control.config queries/fifo2.txt 3
+./query_control/bin/query_control query_control/configs/query_control.config queries/fifo3.txt 5
+./query_control/bin/query_control query_control/configs/query_control.config queries/fifo4.txt 1
+
+ESPERAR A QUE FINALICEN TODAS LAS QUERIES 
+
+cuando finalicen todas bajar TODOS los modulos y hacer la segunda prueba
+------------------------------------------------------------------------------------------------------------------
+VER MEMORY LEAKS
+
+# Terminal 1: Storage
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-storage.log \./storage/bin/storage storage/configs/storage_fresh.config
+
+# Terminal 2: Master (FIFO)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-master.log \./master/bin/master master/configs/master_fifo.config
+
+# Terminal 3: Worker 1
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker1.log \./worker/bin/worker worker/configs/worker1.config 1
+
+# Terminal 4: Worker 2
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker2.log \./worker/bin/worker worker/configs/worker2.config 2
+
+# Terminal 5-8 (ejecutar en orden)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/fifo1.txt 4
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/fifo2.txt 3
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/fifo3.txt 5
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/fifo4.txt 1

@@ -1,0 +1,72 @@
+# Terminal 1: Storage 
+./storage/bin/storage storage/configs/storage_estabilidad_general.config
+
+# Terminal 2: Master (Prioridades)
+./master/bin/master master/configs/master_estabilidad_general.config
+
+# Terminal 3: Worker 1
+./worker/bin/worker worker/configs/worker1_EG.config 1
+
+# Terminal 3: Worker 2
+./worker/bin/worker worker/configs/worker2_EG.config 2
+
+# Terminal 4: 25 instancias de cada query de aging con prioridad 20 
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging1.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging2.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging3.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging4.txt 20 & done
+
+Esperar 30-60 seg e iniciar worker 3 y 4
+# Terminal 5: Worker 3
+./worker/bin/worker worker/configs/worker3_EG.config 3
+
+# Terminal 6: Worker 4
+./worker/bin/worker worker/configs/worker4_EG.config 4
+
+Esperar 30-60 seg y finalizar worker 1 y 2
+
+Esperar 30-60 seg e inicializar worker 5 y 6
+# Terminal 7: Worker 5
+./worker/bin/worker worker/configs/worker5_EG.config 5
+
+# Terminal 8: Worker 6
+./worker/bin/worker worker/configs/worker6_EG.config 6
+
+Esperar a que finalicen las queries
+------------------------------------------------------------------------------------------------------------------
+VER MEMORY LEAKS
+# Terminal 1: Storage 
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-storage.log \./storage/bin/storage storage/configs/storage_estabilidad_general.config
+
+# Terminal 2: Master (Prioridades)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-master.log \./master/bin/master master/configs/master_estabilidad_general.config
+
+# Terminal 3: Worker 1
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker1.log \./worker/bin/worker worker/configs/worker1_EG.config 1
+
+# Terminal 3: Worker 2
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker2.log \./worker/bin/worker worker/configs/worker2_EG.config 2
+
+# Terminal 4: 25 instancias de cada query de aging con prioridad 20 (imposible ver memory leaks)
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging1.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging2.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging3.txt 20 & done
+for i in {1..25}; do ./query_control/bin/query_control query_control/configs/query_control.config queries/aging4.txt 20 & done
+
+Esperar 30-60 seg e iniciar worker 3 y 4
+# Terminal 5: Worker 3
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker3.log \./worker/bin/worker worker/configs/worker3_EG.config 3
+
+# Terminal 6: Worker 4
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker4.log \./worker/bin/worker worker/configs/worker4_EG.config 4
+
+Esperar 30-60 seg y finalizar worker 1 y 2
+
+Esperar 30-60 seg e inicializar worker 5 y 6
+# Terminal 7: Worker 5
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker5.log \./worker/bin/worker worker/configs/worker5_EG.config 5
+
+# Terminal 8: Worker 6
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker6.log \./worker/bin/worker worker/configs/worker6_EG.config 6
+
+Esperar a que finalicen las queries

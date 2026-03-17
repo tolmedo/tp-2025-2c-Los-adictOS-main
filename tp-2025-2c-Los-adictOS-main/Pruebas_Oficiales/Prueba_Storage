@@ -1,0 +1,50 @@
+# Terminal 1: Storage
+./storage/bin/storage storage/configs/storage_memoria_worker.config
+
+# Terminal 2: Master (PRIORIDADES)
+./master/bin/master master/configs/master_prioridades_storage.config
+
+# Terminal 3: Worker
+./worker/bin/worker worker/configs/worker_prueba_storage.config 1
+
+# Terminal 4-7: Query Control
+./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage1.txt 0
+
+./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage2.txt 2
+
+./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage3.txt 4
+
+./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage4.txt 6
+
+
+Una vez finalizados las queries validar el estado del FS
+
+Luego ejecutar un nuevo Query Control:
+
+./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage5.txt 6
+
+Esperar la finalización de la query y validar nuevamente el estado del FS.
+------------------------------------------------------------------------------------------------------------------
+VER MEMORY LEAKS
+# Terminal 1: Storage
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-storage.log \./storage/bin/storage storage/configs/storage_memoria_worker.config
+# Terminal 2: Master (PRIORIDADES)
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-master.log \./master/bin/master master/configs/master_prioridades_storage.config
+# Terminal 3: Worker
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-worker1.log \./worker/bin/worker worker/configs/worker_prueba_storage.config 1
+# Terminal 4-7: Query Control
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage1.txt 0
+
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage2.txt 2
+
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage3.txt 4
+
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage4.txt 6
+
+Una vez finalizados las queries validar el estado del FS
+
+Luego ejecutar un nuevo Query Control:
+
+valgrind \--leak-check=full \--show-leak-kinds=all \--track-origins=yes \--log-file=valgrind-query_control.log \./query_control/bin/query_control query_control/configs/query_control.config queries/prueba_storage5.txt 6
+
+Esperar la finalización de la query y validar nuevamente el estado del FS.

@@ -1,0 +1,28 @@
+
+por ejemplo:
+
+
+//Worker serializa y envía
+t_paquete* paquete = crear_paquete(CREATE_FILE);
+agregar_a_paquete(paquete, "MATERIAS", strlen("MATERIAS") + 1);
+agregar_a_paquete(paquete, "BASE", strlen("BASE") + 1);
+enviar_paquete(paquete, fd_storage);
+
+
+
+// Storage recibe
+t_header header = obtener_header(fd_worker);        // CREATE_FILE
+void* payload = obtener_payload(fd_worker);         // "MATERIAS" + "BASE"
+
+// Storage deserializa
+t_deserializado* solicitud = deserializar(header, payload);
+
+// Ahora puede usar los datos estructurados
+printf("File: %s, Tag: %s", 
+       solicitud->payload.crear_file.nombre_file,    // "MATERIAS"
+       solicitud->payload.crear_file.tag);           // "BASE"
+
+
+
+
+

@@ -1,0 +1,11 @@
+./master/bin/master master/configs/master.config
+
+./storage/bin/storage storage/configs/storage.config
+
+./worker/bin/worker worker/configs/worker.config WORKER_01
+
+./worker/bin/worker worker/configs/worker.config WORKER_02 (por si se quiere probar)
+
+./query_control/bin/query_control query_control/configs/query_control.config query1.txt 5
+
+./query_control/bin/query_control query_control/configs/query_control.config query2.txt 2 (prueba)

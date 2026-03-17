@@ -1,0 +1,22 @@
+# Terminal 1: Storage
+./storage/bin/storage storage/configs/storage_fresh.config
+
+# Terminal 2: Master (FIFO)
+./master/bin/master master/configs/master_fifo.config
+
+# o por prioridades
+
+# Terminal 2: Master (PRIORIDADES)
+./master/bin/master master/configs/master_prioridades.config
+
+# Terminal 3: Worker 1
+./worker/bin/worker worker/configs/worker1.config 1
+
+# Terminal 4: Worker 2
+./worker/bin/worker worker/configs/worker2.config 2
+
+# Terminal 5-8 (lanzar casi simultáneamente)
+./query_control/bin/query_control query_control/configs/query_control.config queries/test_condicion_de_carrera1.txt 5
+./query_control/bin/query_control query_control/configs/query_control.config queries/test_condicion_de_carrera2.txt 5
+./query_control/bin/query_control query_control/configs/query_control.config queries/test_condicion_de_carrera3.txt 5
+./query_control/bin/query_control query_control/configs/query_control.config queries/test_condicion_de_carrera4.txt 5

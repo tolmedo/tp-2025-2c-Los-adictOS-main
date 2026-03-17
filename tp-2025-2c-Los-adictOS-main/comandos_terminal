@@ -1,0 +1,7 @@
+xxd -l 128 BF -> ver contenido del bloque
+
+ls -l bloque -> permisos y cantidad de hardlinks
+
+ls -i bloque -> numero de inodo
+
+xxd -b bitmap -> ver contenido bitmap
